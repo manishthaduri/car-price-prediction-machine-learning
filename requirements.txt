@@ -1,0 +1,5 @@
+flask
+pandas
+requests
+jsonify
+scikit-learn==1.3.0

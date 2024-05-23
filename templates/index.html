@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat center center fixed;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            padding: 20px;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background: rgba(0, 0, 0, 0.5); */
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 600px;
+            width: calc(100% - 40px); /* Adjusted width to consider padding */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        input, select {
+            width: calc(100% - 26px); /* Adjusted width to consider border and padding */
+            padding: 12px;
+            border: 1px solid #23c8b7;
+            border-radius: 5px;
+            font-size: 16px;
+            /* background: rgba(255, 255, 255, 0.2); */
+            color: black
+        }
+
+        input::placeholder {
+            color: #ccc;
+        }
+
+        
+
+        button {
+            background-color: #ff5722;
+            color: #ffffff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e64a19;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(230, 74, 25, 0.4);
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <h1>Car Price Prediction</h1>
+        <h2>Predictive Analysis</h2>
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+                <label for="year">Year</label>
+                <input id="year" name="Year" type="number" required placeholder="Enter the year of manufacture">
+            </div>
+            <div class="form-group">
+                <label for="price">Showroom Price (In lakhs)</label>
+                <input id="price" name="Present_Price" required placeholder="Enter the showroom price">
+            </div>
+            <div class="form-group">
+                <label for="kms">Kilometers Driven</label>
+                <input id="kms" name="Kms_Driven" required placeholder="Enter the kilometers driven">
+            </div>
+            <div class="form-group">
+                <label for="owner">Previous Owners </label>
+                <input id="owner" name="Owner" required placeholder="Enter number of previous owners">
+            </div>
+            <div class="form-group">
+                <label for="fuel">Fuel Type</label>
+                <select id="fuel" name="Fuel_Type_Petrol" required>
+                    <option value="" disabled selected>Select fuel type</option>
+                    <option value="Petrol">Petrol</option>
+                    <option value="Diesel">Diesel</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="seller">Seller Type</label>
+                <select id="seller" name="Seller_Type_Individual" required>
+                    <option value="" disabled selected>Select seller type</option>
+                    <option value="Dealer">Dealer</option>
+                    <option value="Individual">Individual</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="transmission">Transmission Type</label>
+                <select id="transmission" name="Transmission_Mannual" required>
+                    <option value="" disabled selected>Select transmission type</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automatic">Automatic</option>
+                </select>
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result">
+            <h3>{{ prediction_text }} lakhs</h3>
+        </div>
